@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routine Analyzer</title>
+    <!-- [Standard] Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- [Unified Navbar] -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="index.html" class="logo">Routine Analyzer</a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="input.html" class="nav-item">Tracker</a>
+                <a href="report.html" class="nav-item">Weekly Report</a>
+                <div class="nav-auth" id="auth-area">Loading...</div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="container">
+            <h1 style="font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px;">Routine Analyzer<br><span style="color:var(--text-secondary); font-size: 2rem;">For Student</span></h1>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 50px;">Track habits, evaluate meals, and get AI coaching.</p>
+            <a href="input.html" class="btn-primary">Get Started</a>
+        </div>
+    </header>
+
+    <main class="container feature-container" style="padding: 100px 0;">
+        
+        <!-- [Modified] Feature 1 -->
+        <section class="feature-card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 120px;">
+            <div class="feature-text" style="width: 45%;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Analyze Your Daily<br>Routine Smarter</h2>
+                <p style="font-size: 1.1rem; color: var(--text-secondary);">Monitor your entire daily life—from sleep and study time to your meals—tailored specifically to student needs.</p>
+            </div>
+            <div class="feature-image" style="width: 48%; height: 350px; background: #F8F9FA; border-radius: 24px; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #EEE;">
+                <!-- 💡 [Action] 아래 src의 경로를 본인의 파일 이름으로 바꾸세요 -->
+                <!-- 예: src="img/test.jpg" 또는 src="analysis.png" -->
+                <img src="assets/images/analysis.png" alt="Routine Analysis" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<span style=color:#999>이미지를 assets/images 폴더에 넣어주세요</span>'">
+            </div>
+        </section>
+
+        <!-- [Modified] Feature 2 (Reverse Layout) -->
+        <section class="feature-card" style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: center; margin-bottom: 120px;">
+            <div class="feature-text" style="width: 45%;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Habit Analysis</h2>
+                <p style="font-size: 1.1rem; color: var(--text-secondary);">Understand how your collective daily habits influence your productivity and health over time, visually.</p>
+            </div>
+            <div class="feature-image" style="width: 48%; height: 350px; background: #F8F9FA; border-radius: 24px; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #EEE;">
+                <!-- 💡 [Action] 아래 src의 경로를 본인의 파일 이름으로 바꾸세요 -->
+                <img src="assets/images/habits.png" alt="Habit Analysis" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<span style=color:#999>이미지를 assets/images 폴더에 넣어주세요</span>'">
+            </div>
+        </section>
+
+        <!-- [Modified] Feature 3 -->
+        <section class="feature-card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 120px;">
+            <div class="feature-text" style="width: 45%;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Smart Recommendations</h2>
+                <p style="font-size: 1.1rem; color: var(--text-secondary);">AI-driven feedback provides personalized solutions and tips you can start immediately tomorrow to optimize your day.</p>
+            </div>
+            <div class="feature-image" style="width: 48%; height: 350px; background: #F8F9FA; border-radius: 24px; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #EEE;">
+                <!-- 💡 [Action] 아래 src의 경로를 본인의 파일 이름으로 바꾸세요 -->
+                <img src="assets/images/ai-coach.png" alt="AI Recommendations" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<span style=color:#999>이미지를 assets/images 폴더에 넣어주세요</span>'">
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container"><p>© 2026 Routine Analyzer. Built for optimized student life.</p></div>
+    </footer>
+
+    <!-- [Unified Auth Script] -->
+    <script type="module">
+        import { auth, onAuthStateChanged, signOut } from './js/firebase-config.js';
+        const authArea = document.getElementById('auth-area');
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authArea.innerHTML = `<span style="font-size:0.9rem; font-weight:700; color:var(--text-secondary);">Hi, ${user.displayName || user.email.split('@')[0]}</span> <button id="logout-btn" class="btn-logout" style="margin-left:10px;">Logout</button>`;
+                document.getElementById('logout-btn').onclick = () => signOut(auth).then(() => location.reload());
+            } else {
+                authArea.innerHTML = `<a href="login.html" class="nav-item">Log In</a> <a href="login.html?mode=signup" class="btn-secondary" style="padding: 8px 16px; margin-left:10px;">Sign Up</a>`;
+            }
+        });
+    </script>
+</body>
+</html>

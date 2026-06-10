@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report | Routine Analyzer</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="index.html" class="logo">Routine Analyzer</a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="input.html" class="nav-item">Tracker</a>
+                <a href="report.html" class="nav-item active">Report</a>
+                <div class="nav-auth" id="auth-area">
+                    <!-- report.js가 여기에 이름과 로그아웃 버튼을 직접 그려줍니다 -->
+                    <span id="user-display" class="auth-status-text">Checking session...</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header style="text-align:center; margin:50px 0;">
+            <h2 style="font-weight:800; font-size:2rem; margin-bottom:10px;">Weekly Progress</h2>
+            <div class="big-avg" id="weekly-avg">--</div>
+            <p style="color:#9CA3AF; font-weight:600;">avg / 100 pts</p>
+        </header>
+
+        <section class="card" style="padding:40px;">
+            <h3 style="margin-bottom:20px;">7-Day Trend</h3>
+            <div class="bar-chart" id="chart-area">
+                <p style="width:100%; text-align:center; color:#ADB5BD;">Fetching activity...</p>
+            </div>
+        </section>
+
+        <section id="logs-list" style="margin-top:30px;"></section>
+
+        <div style="text-align:center; margin:40px 0;">
+            <!-- [Modified] Admin Only: JS에서 권한 확인 후 노출함 -->
+            <button id="test-data-btn" class="btn-secondary" style="display:none;">🎲 Generate Simulation</button>
+        </div>
+    </main>
+
+    <footer class="main-footer"><div class="container"><p>© 2026 Routine Analyzer. Built for Students.</p></div></footer>
+
+    <!-- [Critical] 모든 로직은 이 파일 하나에서 관리합니다 -->
+    <script type="module" src="report.js"></script>
+</body>
+</html>

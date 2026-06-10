@@ -1,0 +1,28 @@
+/* 기본 여백 및 박스 사이징 초기화 */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 폰트 및 텍스트 렌더링 최적화 */
+html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    font-family: 'Pretendard', sans-serif;
+}
+
+/* 리스트, 링크 스타일 제거 */
+ul, ol { list-style: none; }
+a { text-decoration: none; color: inherit; }
+
+/* 이미지 및 폼 요소 최적화 */
+img, picture { max-width: 100%; display: block; }
+input, button, textarea, select { font: inherit; outline: none; border: none; }
+button { cursor: pointer; background: none; }

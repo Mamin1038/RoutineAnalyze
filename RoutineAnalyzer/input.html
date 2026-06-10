@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Tracker | Routine Analyzer</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="index.html" class="logo">Routine Analyzer</a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="input.html" class="nav-item">Tracker</a>
+                <a href="report.html" class="nav-item">Weekly Report</a>
+                <div class="nav-auth" id="auth-area">Loading...</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container tracker-container">
+        <header class="tracker-header">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px; font-weight:800;">Daily Life Tracker</h2>
+        </header>
+
+        <div class="tracker-grid">
+            <section class="input-section">
+                <div class="card">
+                    <h3>🌙 Daily Routine</h3>
+                    <div class="input-item">
+                        <label>Sleep: <input type="number" id="sleep-num" value="7" step="0.5" class="inline-num-input"> h</label>
+                        <input type="range" id="sleep-slider" min="0" max="15" value="7" step="0.5" class="slider">
+                    </div>
+                    <div class="input-item">
+                        <label>Study: <input type="number" id="study-num" value="4" step="0.5" class="inline-num-input"> h</label>
+                        <input type="range" id="study-slider" min="0" max="15" value="4" step="0.5" class="slider">
+                    </div>
+                    <div class="input-item">
+                        <label>Exercise: <input type="number" id="exercise-num" value="1" step="0.5" class="inline-num-input"> h</label>
+                        <input type="range" id="exercise-slider" min="0" max="15" value="1" step="0.5" class="slider">
+                    </div>
+                    <div class="input-item">
+                        <label>Screen Time: <input type="number" id="screen-num" value="2" step="0.5" class="inline-num-input"> h</label>
+                        <input type="range" id="screen-slider" min="0" max="15" value="2" step="0.5" class="slider">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🍽️ Today's Diet</h3>
+                    <div class="input-item">
+                        <label>Breakfast</label>
+                        <input type="text" id="breakfast-input" placeholder="What did you eat?" class="text-input">
+                    </div>
+                    <div class="input-item">
+                        <label>Lunch</label>
+                        <label class="custom-checkbox"><input type="checkbox" id="school-lunch"><span class="checkmark"></span> School Lunch</label>
+                        <input type="text" id="lunch-input" placeholder="Lunch" class="text-input mt-10">
+                    </div>
+                    <div class="input-item">
+                        <label>Dinner</label>
+                        <input type="text" id="dinner-input" placeholder="Dinner" class="text-input">
+                    </div>
+                    <div class="input-item">
+                        <label>Snacks / Others</label>
+                        <input type="text" id="snacks-input" placeholder="Snacks" class="text-input">
+                    </div>
+                </div>
+                
+                <!-- [Modified] Admin 전용 버튼: 초기 상태 display: none -->
+                <button type="button" id="random-data-btn" class="btn-secondary full-width" style="margin-bottom: 10px; display: none;" onclick="window.fillRandomData()">🎲 Random Data (Admin Only)</button>
+                <button class="btn-primary full-width" onclick="window.analyzeDay()">Analyze My Day</button>
+            </section>
+
+            <aside class="analysis-section">
+                <div class="card result-card" style="text-align: center;">
+                    <h3>Daily Score</h3>
+                    <div class="score-display">
+                        <span class="score-num">--</span><span class="score-total">/100</span>
+                    </div>
+                    <div class="status-bar"><div class="status-fill" style="width: 0%;"></div></div>
+                    
+                    <div class="feedback-section">
+                        <h4 style="color: #4A90E2;">🏃 Routine</h4>
+                        <p id="routine-feedback-text" class="ai-preview-text">"Waiting for data..."</p>
+                    </div>
+                    <div class="feedback-section">
+                        <h4 style="color: #F9A825;">🥗 Diet</h4>
+                        <p id="diet-feedback-text" class="ai-preview-text">"Waiting for data..."</p>
+                    </div>
+                    <a href="report.html" class="btn-secondary full-width" style="margin-top: 25px; display: block; text-decoration: none;">Weekly Report →</a>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container"><p>© 2026 Routine Analyzer. Built for Students.</p></div>
+    </footer>
+
+    <script>
+        const categories = ['sleep', 'study', 'exercise', 'screen'];
+        categories.forEach(id => {
+            const num = document.getElementById(id + '-num');
+            const slider = document.getElementById(id + '-slider');
+            if (num && slider) {
+                num.addEventListener('input', () => slider.value = num.value);
+                slider.addEventListener('input', () => num.value = slider.value);
+            }
+        });
+    </script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module">
+        import { auth, onAuthStateChanged, signOut } from './js/firebase-config.js';
+        const authArea = document.getElementById('auth-area');
+        const randomBtn = document.getElementById('random-data-btn');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authArea.innerHTML = `<span style="font-size:0.9rem; font-weight:700;">Hi, ${user.displayName || user.email.split('@')[0]}</span> <button id="logout-btn" class="btn-logout" style="margin-left:10px;">Logout</button>`;
+                document.getElementById('logout-btn').onclick = () => signOut(auth).then(() => location.reload());
+
+                // [Added] 어드민 계정(admin@admin.com)인 경우에만 랜덤 버튼 노출
+                if (user.email === 'admin@admin.com') { // [Maintenance] 하드코딩된 이메일 체크
+                    randomBtn.style.display = 'block';
+                    console.log("🛠 Admin mode activated.");
+                }
+            } else {
+                authArea.innerHTML = `<a href="login.html" class="nav-item">Log In</a><a href="login.html?mode=signup" class="btn-secondary" style="padding: 6px 12px; margin-left:10px;">Sign Up</a>`;
+            }
+        });
+    </script>
+</body>
+</html>
