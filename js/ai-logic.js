@@ -1,5 +1,5 @@
 const AI_CONFIG = {
-    API_KEY: "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",
+    API_KEY: "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",
     URL: "https://api.groq.com/openai/v1/chat/completions",
     MODEL: "llama-3.3-70b-versatile"
 };
